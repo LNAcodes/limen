@@ -195,6 +195,8 @@ change.
 
 ## Git Workflow
 
+Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8)
+
 - Protected `main` branch, no direct pushes
 - Every change goes through a pull request
 - One ticket = one branch = one pull request
