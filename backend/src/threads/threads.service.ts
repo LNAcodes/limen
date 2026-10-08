@@ -17,4 +17,11 @@ export class ThreadsService {
 
     return savedThread;
   }
+
+  async findAllThreads(): Promise<Thread[]> {
+    const allThreads = await this.threadRepository.find({
+      order: { createdAt: 'DESC' },
+    });
+    return allThreads;
+  }
 }
