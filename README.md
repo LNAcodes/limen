@@ -163,10 +163,19 @@ Relations:
 
 **Database**
 
+After installing Postgres.app, add the command line tools to your PATH
+(see postgresapp.com), then restart the terminal and create the database:
+
 ```
 psql
 CREATE DATABASE limen_dev;
 \q
+```
+
+In `backend/.env`, use your Mac username (find it with `whoami`):
+
+```
+DATABASE_URL=postgresql://YOUR_USERNAME@localhost:5432/limen_dev
 ```
 
 **Backend** (runs on http://localhost:3000)
