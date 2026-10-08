@@ -1,0 +1,23 @@
+info:
+  name: CreateThread
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/threads"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "",
+        "content": "How do you organize the exchange with daycare centers?"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
