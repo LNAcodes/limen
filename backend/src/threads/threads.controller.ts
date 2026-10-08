@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  ParseUUIDPipe,
+  Param,
+} from '@nestjs/common';
 import { ThreadsService } from './threads.service.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
 
@@ -11,8 +18,13 @@ export class ThreadsController {
     return this.threadsService.findAllThreads();
   }
 
+  @Get(':id')
+  findOneThread(@Param('id', ParseUUIDPipe) threadId: string) {
+    return this.threadsService.findOneThread(threadId);
+  }
+
   @Post()
-  create(@Body() createThreadDto: CreateThreadDto) {
+  createThread(@Body() createThreadDto: CreateThreadDto) {
     return this.threadsService.createThread(createThreadDto);
   }
 }

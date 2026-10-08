@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Thread } from './entities/thread.entity.js';
@@ -23,5 +23,14 @@ export class ThreadsService {
       order: { createdAt: 'DESC' },
     });
     return allThreads;
+  }
+
+  async findOneThread(threadId: string): Promise<Thread> {
+    const foundThread = await this.threadRepository.findOneBy({ id: threadId });
+
+    if (!foundThread) {
+      throw new NotFoundException('Thread not found');
+    }
+    return foundThread;
   }
 }
