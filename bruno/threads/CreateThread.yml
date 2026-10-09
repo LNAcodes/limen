@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-        "title": "",
-        "content": "How do you organize the exchange with daycare centers?"
+        "title": "Cooperation between schools and youth welfare offices",
+        "content": "Which formats work well for regular exchange between school social work and the youth welfare office?"
       }
   auth: inherit
 
