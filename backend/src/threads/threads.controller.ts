@@ -13,8 +13,10 @@ import {
 import { ThreadsService } from './threads.service.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('threads')
+@ApiTags('threads')
 export class ThreadsController {
   constructor(private readonly threadsService: ThreadsService) {}
 

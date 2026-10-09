@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,14 +10,25 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-      // transforms raw req-body into instance of dto-class, url parameter into type from controller
+      // Turns the raw request body into a DTO instance and URL params into the types declared in the controller
       transform: true,
-      // transforms values into ts types, e.g. sth from url becomes number
+      // Converts values based on their TypeScript type, e.g. "2" from the URL becomes the number 2
       transformOptions: {
         enableImplicitConversion: true,
       },
     }),
   );
+
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Limen API')
+    .setDescription(
+      'Cooperation platform for professionals in education and youth welfare',
+    )
+    .setVersion('1.0')
+    .build();
+
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api/docs', app, swaggerDocument);
 
   await app.listen(process.env.PORT ?? 3000);
 }
