@@ -217,7 +217,7 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
 
 - **Backend:** Render (web service `limen-api`)
 - **Database:** PostgreSQL on Render, region Frankfurt
-  (free tier, expires on: [add date])
+  (free tier, expires on: [Nov. 8, 2026])
 - **Frontend:** Vercel
 
 |          | URL                    |
