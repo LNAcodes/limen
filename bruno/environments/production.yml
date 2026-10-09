@@ -1,0 +1,5 @@
+name: production
+variables:
+  - name: baseUrl
+    value: https://limen-api.onrender.com
+    description: ""
