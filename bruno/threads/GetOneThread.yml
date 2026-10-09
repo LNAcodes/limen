@@ -5,11 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/threads/:id"
-  params:
-    - name: id
-      value: ""
-      type: path
+  url: "{{baseUrl}}/threads/abx"
   auth: inherit
 
 settings:

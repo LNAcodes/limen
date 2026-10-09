@@ -5,9 +5,11 @@ import {
   Get,
   ParseUUIDPipe,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { ThreadsService } from './threads.service.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
+import { UpdateThreadDto } from './dto/update-thread.dto.js';
 
 @Controller('threads')
 export class ThreadsController {
@@ -26,5 +28,13 @@ export class ThreadsController {
   @Post()
   createThread(@Body() createThreadDto: CreateThreadDto) {
     return this.threadsService.createThread(createThreadDto);
+  }
+
+  @Patch(':id')
+  updateThread(
+    @Param('id', ParseUUIDPipe) threadId: string,
+    @Body() updateThreadDto: UpdateThreadDto,
+  ) {
+    return this.threadsService.updateThread(threadId, updateThreadDto);
   }
 }
