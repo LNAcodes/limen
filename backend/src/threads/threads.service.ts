@@ -19,6 +19,24 @@ export class ThreadsService {
     return savedThread;
   }
 
+  async findAllThreads(): Promise<Thread[]> {
+    const allThreads = await this.threadRepository.find({
+      order: { createdAt: 'DESC' },
+    });
+
+    return allThreads;
+  }
+
+  async findOneThread(threadId: string): Promise<Thread> {
+    const foundThread = await this.threadRepository.findOneBy({ id: threadId });
+
+    if (!foundThread) {
+      throw new NotFoundException('Thread not found');
+    }
+
+    return foundThread;
+  }
+
   async updateThread(
     threadId: string,
     updateThreadDto: UpdateThreadDto,
@@ -32,19 +50,10 @@ export class ThreadsService {
     return savedThread;
   }
 
-  async findAllThreads(): Promise<Thread[]> {
-    const allThreads = await this.threadRepository.find({
-      order: { createdAt: 'DESC' },
-    });
-    return allThreads;
-  }
+  async removeThread(threadId: string): Promise<void> {
+    const threadToRemove = await this.findOneThread(threadId);
 
-  async findOneThread(threadId: string): Promise<Thread> {
-    const foundThread = await this.threadRepository.findOneBy({ id: threadId });
-
-    if (!foundThread) {
-      throw new NotFoundException('Thread not found');
-    }
-    return foundThread;
+    await this.threadRepository.remove(threadToRemove);
+    // TypeOrm: remove() instead of delete(): we already loaded the entity for the 404 check, and remove() also handles related data (cascades)
   }
 }

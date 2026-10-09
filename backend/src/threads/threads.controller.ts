@@ -6,6 +6,9 @@ import {
   ParseUUIDPipe,
   Param,
   Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ThreadsService } from './threads.service.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
@@ -36,5 +39,11 @@ export class ThreadsController {
     @Body() updateThreadDto: UpdateThreadDto,
   ) {
     return this.threadsService.updateThread(threadId, updateThreadDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  removeThread(@Param('id', ParseUUIDPipe) threadId: string) {
+    return this.threadsService.removeThread(threadId);
   }
 }
