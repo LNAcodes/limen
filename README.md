@@ -220,11 +220,17 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
   (free tier, expires on: [Nov. 8, 2026])
 - **Frontend:** Vercel
 
-|          | URL                    |
-| -------- | ---------------------- |
-| Live API | [add after deployment] |
-| Swagger  | [add after deployment] |
-| Frontend | [add after deployment] |
+|          | URL                                   |
+| -------- | ------------------------------------- |
+| Live API | https://limen-api.onrender.com        |
+| Swagger  | https://limen-api.onrender.com/health |
+| Frontend | [add after deployment]                |
+
+**Environment variables on Render (backend):**
+
+- `DATABASE_URL`: internal database URL of `limen-db`
+- `BUN_VERSION`: Bun version used for install and build
+- `NODE_VERSION`: Node version used to run the app
 
 **Notes:**
 
