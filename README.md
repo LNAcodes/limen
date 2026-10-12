@@ -198,6 +198,8 @@ bun install
 bun run dev
 ```
 
+Frontend runs on http://localhost:3001, backend on http://localhost:3000
+
 **Note:** `synchronize: true` is used in development. It automatically
 creates tables from the entities, but can delete data when entities
 change.
