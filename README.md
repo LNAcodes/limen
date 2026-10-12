@@ -198,7 +198,7 @@ bun install
 bun run dev
 ```
 
-Frontend runs on http://localhost:3001, backend on http://localhost:3000
+The backend must be running on http://localhost:3000, otherwise the start page shows "Backend not reachable".
 
 **Note:** `synchronize: true` is used in development. It automatically
 creates tables from the entities, but can delete data when entities
@@ -226,7 +226,7 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
 | -------- | ------------------------------------- |
 | Live API | https://limen-api.onrender.com        |
 | Swagger  | https://limen-api.onrender.com/health |
-| Frontend | [add after deployment]                |
+| Frontend | https://limen-gilt-xi.vercel.app      |
 
 **Environment variables on Render (backend):**
 
