@@ -3,6 +3,7 @@ import { HealthModule } from './health/health.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThreadsModule } from './threads/threads.module.js';
+import { RepliesModule } from './replies/replies.module.js';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ThreadsModule } from './threads/threads.module.js';
       },
     }),
     ThreadsModule,
+    RepliesModule,
   ],
 })
 export class AppModule {}

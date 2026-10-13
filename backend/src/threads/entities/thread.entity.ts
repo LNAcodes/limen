@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
+import { Reply } from '../../replies/entities/reply.entity.js';
 
 @Entity('threads')
 export class Thread {
@@ -22,4 +25,8 @@ export class Thread {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  // One thread has many replies
+  @OneToMany(() => Reply, (reply) => reply.thread)
+  replies: Relation<Reply[]>;
 }
