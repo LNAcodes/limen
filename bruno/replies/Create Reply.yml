@@ -1,0 +1,22 @@
+info:
+  name: Create Reply
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{baseUrl}}"
+  body:
+    type: json
+    data: |-
+      {
+          "content": "At our school, we meet with the daycare centers twice a year."
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
