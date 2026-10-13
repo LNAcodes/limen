@@ -1,4 +1,5 @@
 import { checkBackendHealth } from "@/lib/api";
+import Link from "next/link";
 
 export default async function Home() {
   const isBackendReachable = await checkBackendHealth();
@@ -12,6 +13,9 @@ export default async function Home() {
       <p className="mt-6">
         {isBackendReachable ? "Backend reachable" : "Backend not reachable"}
       </p>
+      <Link href="/threads" className="mt-6 inline-block underline">
+        View all threads
+      </Link>
     </main>
   );
 }
