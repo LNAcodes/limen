@@ -6,6 +6,9 @@ import {
   Post,
   Get,
   Patch,
+  HttpCode,
+  Delete,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RepliesService } from './replies.service.js';
@@ -20,9 +23,9 @@ export class RepliesController {
   @Post('threads/:threadId/replies')
   createReply(
     @Param('threadId', ParseUUIDPipe) threadId: string,
-    @Body() CreateReplyDto: CreateReplyDto,
+    @Body() createReplyDto: CreateReplyDto,
   ) {
-    return this.repliesService.createReply(threadId, CreateReplyDto);
+    return this.repliesService.createReply(threadId, createReplyDto);
   }
 
   @Get('threads/:threadId/replies')
@@ -36,5 +39,11 @@ export class RepliesController {
     @Body() updateReplyDto: UpdateReplyDto,
   ) {
     return this.repliesService.updateReply(replyId, updateReplyDto);
+  }
+
+  @Delete('replies/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  removeReply(@Param('id', ParseUUIDPipe) replyId: string) {
+    return this.repliesService.removeReply(replyId);
   }
 }
