@@ -27,4 +27,15 @@ export class RepliesService {
 
     return savedReply;
   }
+
+  async findRepliesOfThread(threadId: string): Promise<Reply[]> {
+    await this.threadsService.findOneThread(threadId);
+
+    const threadReplies = await this.replyRepository.find({
+      where: { thread: { id: threadId } },
+      order: { createdAt: 'ASC' },
+    });
+
+    return threadReplies;
+  }
 }
