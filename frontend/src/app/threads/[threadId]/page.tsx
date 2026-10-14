@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/format";
+import CreateReplyForm from "@/components/CreateReplyForm";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -62,6 +63,7 @@ export default async function ThreadDetailPage({
             ))}
           </ul>
         )}
+        <CreateReplyForm threadId={threadId} />
       </section>
     </main>
   );

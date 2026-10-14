@@ -86,3 +86,25 @@ export async function createThread(
 
   return createdThread;
 }
+
+export async function createReply(
+  threadId: string,
+  replyContent: string,
+): Promise<Reply> {
+  const createResponse = await fetch(
+    `${apiBaseUrl}/threads/${threadId}/replies`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: replyContent }),
+    },
+  );
+
+  if (!createResponse.ok) {
+    throw new Error("Failed to create reply");
+  }
+
+  const createdReply: Reply = await createResponse.json();
+
+  return createdReply;
+}
