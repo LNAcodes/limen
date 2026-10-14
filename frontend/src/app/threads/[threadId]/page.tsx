@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/format";
 import CreateReplyForm from "@/components/CreateReplyForm";
+import { Button } from "@/components/ui/button";
+import DeleteThreadButton from "@/components/DeleteThreadButton";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -37,6 +39,12 @@ export default async function ThreadDetailPage({
           {formatDate(currentThread.createdAt)}
         </time>
         <p className="mt-4 whitespace-pre-line">{currentThread.content}</p>
+        <div className="mt-6 flex gap-2">
+          <Button asChild variant="outline">
+            <Link href={`/threads/${threadId}/edit`}>Edit</Link>
+          </Button>
+          <DeleteThreadButton threadId={threadId} />
+        </div>
       </article>
 
       <section className="mt-10">
