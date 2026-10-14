@@ -114,21 +114,21 @@ registration.
 
 ## Tech Stack
 
-| Area             | Technology                                 |
-| ---------------- | ------------------------------------------ |
-| Backend          | NestJS 12 (ESM), TypeScript                |
-| API              | RESTful, stateless                         |
-| Database         | PostgreSQL                                 |
-| ORM              | TypeORM                                    |
-| Auth             | Passport, JWT, bcrypt                      |
-| Validation       | class-validator, class-transformer, DTOs   |
-| API docs         | Swagger (@nestjs/swagger)                  |
-| Frontend         | Next.js (App Router), TypeScript, Tailwind |
-| Testing          | Vitest, Supertest                          |
-| API testing      | Bruno                                      |
-| Package manager  | Bun                                        |
-| Deployment       | Render (backend, DB), Vercel (frontend)    |
-| Project planning | GitHub Projects (Kanban, tickets)          |
+| Area             | Technology                                            |
+| ---------------- | ----------------------------------------------------- |
+| Backend          | NestJS 12 (ESM), TypeScript                           |
+| API              | RESTful, stateless                                    |
+| Database         | PostgreSQL                                            |
+| ORM              | TypeORM                                               |
+| Auth             | Passport, JWT, bcrypt                                 |
+| Validation       | class-validator, class-transformer, DTOs              |
+| API docs         | Swagger (@nestjs/swagger)                             |
+| Frontend         | Next.js (App Router), TypeScript, Tailwind, shadcn/ui |
+| Testing          | Vitest, Supertest                                     |
+| API testing      | Bruno                                                 |
+| Package manager  | Bun                                                   |
+| Deployment       | Render (backend, DB), Vercel (frontend)               |
+| Project planning | GitHub Projects (Kanban, tickets)                     |
 
 ## Data Model (First Draft)
 
@@ -219,20 +219,21 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
 
 - **Backend:** Render (web service `limen-api`)
 - **Database:** PostgreSQL on Render, region Frankfurt
-  (free tier, expires on: [Nov. 8, 2026])
+  (free tier, expires on: Nov. 8, 2026)
 - **Frontend:** Vercel
 
-|          | URL                                   |
-| -------- | ------------------------------------- |
-| Live API | https://limen-api.onrender.com        |
-| Swagger  | https://limen-api.onrender.com/health |
-| Frontend | https://limen-gilt-xi.vercel.app      |
+|          | URL                                     |
+| -------- | --------------------------------------- |
+| Live API | https://limen-api.onrender.com          |
+| Swagger  | https://limen-api.onrender.com/api/docs |
+| Frontend | https://limen-gilt-xi.vercel.app        |
 
 **Environment variables on Render (backend):**
 
 - `DATABASE_URL`: internal database URL of `limen-db`
 - `BUN_VERSION`: Bun version used for install and build
 - `NODE_VERSION`: Node version used to run the app
+- `FRONTEND_URL`: live frontend URL, only this origin may call the API (CORS)
 
 **Notes:**
 

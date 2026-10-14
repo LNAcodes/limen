@@ -1,5 +1,6 @@
 import type { Thread } from "@/types/thread";
 import { createContentPreview, formatDate } from "@/lib/format";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 type ThreadCardProps = {
   thread: Thread;
@@ -7,12 +8,23 @@ type ThreadCardProps = {
 
 export default function ThreadCard({ thread }: ThreadCardProps) {
   return (
-    <article className="rounded-lg border p4">
-      <h2 className="text-xl fonr-semibold">{thread.title}</h2>
-      <p className="mt-2">{createContentPreview(thread.content)}</p>
-      <time className="mt-2 block text-sm" dateTime={thread.createdAt}>
-        {formatDate(thread.createdAt)}
-      </time>
+    <article>
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <h2>{thread.title}</h2>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>{createContentPreview(thread.content)}</p>
+          <time
+            className="mt-2 block text-sm text-muted-foreground"
+            dateTime={thread.createdAt}
+          >
+            {formatDate(thread.createdAt)}
+          </time>
+        </CardContent>
+      </Card>
     </article>
   );
 }
