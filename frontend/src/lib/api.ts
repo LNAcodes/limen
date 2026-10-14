@@ -34,7 +34,7 @@ export async function fetchOneThread(threadId: string): Promise<Thread | null> {
     cache: "no-store",
   });
 
-  if (threadResponse.status === 404) {
+  if (threadResponse.status === 404 || threadResponse.status === 400) {
     return null;
   }
 
@@ -45,4 +45,21 @@ export async function fetchOneThread(threadId: string): Promise<Thread | null> {
   const currentThread: Thread = await threadResponse.json();
 
   return currentThread;
+}
+
+export async function fetchRepliesOfThread(threadId: string): Promise<Reply[]> {
+  const repliesResponse = await fetch(
+    `${apiBaseUrl}/threads/${threadId}/replies`,
+    {
+      cache: "no-store",
+    },
+  );
+
+  if (!repliesResponse.ok) {
+    throw new Error("Failed to fetch replies");
+  }
+
+  const threadReplies: Reply[] = await repliesResponse.json();
+
+  return threadReplies;
 }
