@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ParseUUIDPipe } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reply } from './entities/reply.entity.js';
 import { Repository } from 'typeorm';
@@ -61,5 +61,11 @@ export class RepliesService {
     const savedReply = await this.replyRepository.save(existingReply);
 
     return savedReply;
+  }
+
+  async removeReply(replyId: string): Promise<void> {
+    const replyToRemove = await this.findOneReply(replyId);
+
+    await this.replyRepository.remove(replyToRemove);
   }
 }

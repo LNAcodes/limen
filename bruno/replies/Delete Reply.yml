@@ -1,0 +1,16 @@
+info:
+  name: Delete Reply
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/replies/4eb0efdf-997f-480e-a879-6003c6be963b"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
