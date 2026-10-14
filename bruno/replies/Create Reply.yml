@@ -5,7 +5,11 @@ info:
 
 http:
   method: POST
-  url: "{{baseUrl}}"
+  url: "{{baseUrl}}/threads/:threadId/replies"
+  params:
+    - name: threadId
+      value: ""
+      type: path
   body:
     type: json
     data: |-
