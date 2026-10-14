@@ -108,3 +108,32 @@ export async function createReply(
 
   return createdReply;
 }
+
+export async function updateThread(
+  threadId: string,
+  updatedThreadData: NewThreadData,
+): Promise<Thread> {
+  const updatedResponse = await fetch(`${apiBaseUrl}/threads/${threadId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedThreadData),
+  });
+
+  if (!updatedResponse.ok) {
+    throw new Error("Failed to update thread");
+  }
+
+  const updatedThread: Thread = await updatedResponse.json();
+
+  return updatedThread;
+}
+
+export async function deleteThread(threadId: string): Promise<void> {
+  const deleteResponse = await fetch(`${apiBaseUrl}/threads/${threadId}`, {
+    method: "DELETE",
+  });
+
+  if (!deleteResponse.ok) {
+    throw new Error("Failed to delete thread.");
+  }
+}
