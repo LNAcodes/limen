@@ -1,6 +1,11 @@
 import type { Thread } from "@/types/thread";
 import type { Reply } from "@/types/reply";
 
+export type NewThreadData = {
+  title: string;
+  content: string;
+};
+
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function checkBackendHealth(): Promise<boolean> {
@@ -62,4 +67,22 @@ export async function fetchRepliesOfThread(threadId: string): Promise<Reply[]> {
   const threadReplies: Reply[] = await repliesResponse.json();
 
   return threadReplies;
+}
+
+export async function createThread(
+  newThreadData: NewThreadData,
+): Promise<Thread> {
+  const createResponse = await fetch(`${apiBaseUrl}/threads`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newThreadData),
+  });
+
+  if (!createResponse.ok) {
+    throw new Error("Failed to create thread");
+  }
+
+  const createdThread: Thread = await createResponse.json();
+
+  return createdThread;
 }
