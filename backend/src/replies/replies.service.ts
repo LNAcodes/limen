@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reply } from './entities/reply.entity.js';
 import { Repository } from 'typeorm';
 import { CreateReplyDto } from './dto/create-reply.dto.js';
 import { ThreadsService } from '../threads/threads.service.js';
+import { UpdateReplyDto } from './dto/update-reply.dto.js';
 
 @Injectable()
 export class RepliesService {
@@ -37,5 +38,28 @@ export class RepliesService {
     });
 
     return threadReplies;
+  }
+
+  async findOneReply(replyId: string): Promise<Reply> {
+    const foundReply = await this.replyRepository.findOneBy({ id: replyId });
+
+    if (!foundReply) {
+      throw new NotFoundException('Reply not found');
+    }
+
+    return foundReply;
+  }
+
+  async updateReply(
+    replyId: string,
+    updateReplyDto: UpdateReplyDto,
+  ): Promise<Reply> {
+    const existingReply = await this.findOneReply(replyId);
+
+    this.replyRepository.merge(existingReply, updateReplyDto);
+
+    const savedReply = await this.replyRepository.save(existingReply);
+
+    return savedReply;
   }
 }

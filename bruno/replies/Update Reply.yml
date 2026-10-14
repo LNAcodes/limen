@@ -1,0 +1,22 @@
+info:
+  name: Update Reply
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/replies/4eb0efdf-997f-480e-a879-6003c6be963b"
+  body:
+    type: json
+    data: |2-
+       {
+          "content": "Updated: we now meet three times a year."
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
