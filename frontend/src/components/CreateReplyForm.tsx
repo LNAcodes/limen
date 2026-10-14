@@ -27,7 +27,8 @@ export default function CreateReplyForm({ threadId }: CreateReplyFormProps) {
 
     try {
       await createReply(threadId, replyContent);
-      (replyForm.reset(), router.refresh());
+      replyForm.reset();
+      router.refresh();
     } catch {
       setErrorMessage("Reply could not be sent. Please try again.");
     } finally {
