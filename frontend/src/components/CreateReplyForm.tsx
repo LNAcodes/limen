@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { createReply } from "@/lib/api";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 type CreateReplyFormProps = {
   threadId: string;
@@ -50,9 +51,10 @@ export default function CreateReplyForm({ threadId }: CreateReplyFormProps) {
       </div>
 
       {errorMessage && (
-        <p role="alert" className="text-sm text-destructive">
-          {errorMessage}
-        </p>
+        <Alert variant="destructive">
+          <AlertTitle>Something went wrong</AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
       )}
 
       <Button type="submit" disabled={isSubmitting}>

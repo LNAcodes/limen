@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { updateThread } from "@/lib/api";
 import type { Thread } from "@/types/thread";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 type EditThreadFormProps = {
   thread: Thread;
@@ -66,9 +67,10 @@ export default function EditThreadForm({ thread }: EditThreadFormProps) {
       </div>
 
       {errorMessage && (
-        <p role="alert" className="text-sm text-destructive">
-          {errorMessage}
-        </p>
+        <Alert variant="destructive">
+          <AlertTitle>Something went wrong</AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
       )}
 
       <Button type="submit" disabled={isSubmitting}>

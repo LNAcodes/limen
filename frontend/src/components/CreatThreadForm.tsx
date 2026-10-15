@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { createThread } from "@/lib/api";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 export default function CreateThreadForm() {
   const router = useRouter();
@@ -53,9 +54,10 @@ export default function CreateThreadForm() {
       </div>
 
       {errorMessage && (
-        <p role="alert" className="text-sm text-destructive">
-          {errorMessage}
-        </p>
+        <Alert variant="destructive">
+          <AlertTitle>Something went wrong</AlertTitle>
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
       )}
 
       <Button type="submit" disabled={isSubmitting}>
