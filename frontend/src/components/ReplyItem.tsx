@@ -8,6 +8,7 @@ import { updateReply, deleteReply } from "@/lib/api";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { formatDate } from "@/lib/format";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 type ReplyItemProps = {
   reply: Reply;
@@ -76,9 +77,10 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
               </div>
 
               {errorMessage && (
-                <p role="alert" className="text-sm text-destructive">
-                  {errorMessage}
-                </p>
+                <Alert variant="destructive">
+                  <AlertTitle>Something went wrong</AlertTitle>
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
               )}
 
               <div className="flex gap-2">
