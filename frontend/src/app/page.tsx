@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function Home() {
   const isBackendReachable = await checkBackendHealth();
   return (
-    <main className="mx-auto max-w-2xl px-4 py-12">
+    <>
       <h1 className="text-4xl font-bold">Limen</h1>
       <p className="mt-2 text-lg">
         Cooperation platform for professionals in education and youth welfare
@@ -16,6 +16,6 @@ export default async function Home() {
       <Link href="/threads" className="mt-6 inline-block underline">
         View all threads
       </Link>
-    </main>
+    </>
   );
 }
