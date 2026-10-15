@@ -24,7 +24,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Shared page wrapper for all pages (like a base template) */}
+        <main className="mx-auto w-full max-w-2x1 px-4 py-12">{children}</main>
+      </body>
     </html>
   );
 }

@@ -25,7 +25,7 @@ export default async function ThreadDetailPage({
   const threadReplies = await fetchRepliesOfThread(threadId);
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-12">
+    <>
       <Link href="/threads" className="text-sm underline">
         Back to all threads
       </Link>
@@ -63,6 +63,6 @@ export default async function ThreadDetailPage({
         )}
         <CreateReplyForm threadId={threadId} />
       </section>
-    </main>
+    </>
   );
 }

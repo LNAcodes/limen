@@ -17,7 +17,7 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-12">
+    <>
       <Link href={`/threads/${threadId}`} className="text-sm underline">
         Back to thread
       </Link>
@@ -27,6 +27,6 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
       <div className="mt-6">
         <EditThreadForm thread={currentThread} />
       </div>
-    </main>
+    </>
   );
 }
