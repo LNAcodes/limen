@@ -129,4 +129,8 @@
   html {
     @apply font-sans;
   }
+  /* Visible keyboard focus for all links (accessibility) */
+  a {
+    @apply rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
 }
