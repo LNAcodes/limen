@@ -6,6 +6,7 @@ import CreateReplyForm from "@/components/CreateReplyForm";
 import { Button } from "@/components/ui/button";
 import DeleteThreadButton from "@/components/DeleteThreadButton";
 import ReplyItem from "@/components/ReplyItem";
+import BackLink from "@/components/BackLink";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -26,9 +27,7 @@ export default async function ThreadDetailPage({
 
   return (
     <>
-      <Link href="/threads" className="text-sm underline">
-        Back to all threads
-      </Link>
+      <BackLink href="/threads" label="Back to all threads" />
 
       <article className="mt-6">
         <h1 className="text-3xl font-bold">{currentThread.title}</h1>

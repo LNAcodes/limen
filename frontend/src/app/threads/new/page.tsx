@@ -1,12 +1,10 @@
-import Link from "next/link";
+import BackLink from "@/components/BackLink";
 import CreateThreadForm from "@/components/CreatThreadForm";
 
 export default function NewThreadPage() {
   return (
     <>
-      <Link href="/threads" className="text-sm underline">
-        Back to all threads
-      </Link>
+      <BackLink href="/threads" label="Back to all threads" />
 
       <h1 className="mt-6 text-3xl font-bold">New thread</h1>
 

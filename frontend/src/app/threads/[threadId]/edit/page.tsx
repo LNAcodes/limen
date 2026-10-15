@@ -1,4 +1,4 @@
-import Link from "next/link";
+import BackLink from "@/components/BackLink";
 import { notFound } from "next/navigation";
 import EditThreadForm from "@/components/EditThreadForm";
 import { fetchOneThread } from "@/lib/api";
@@ -18,9 +18,7 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
 
   return (
     <>
-      <Link href={`/threads/${threadId}`} className="text-sm underline">
-        Back to thread
-      </Link>
+      <BackLink href={`/threads/${threadId}`} label="Back to thread" />
 
       <h1 className="mt-6 text-3xl font-bold">Edit thread</h1>
 
