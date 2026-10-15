@@ -33,4 +33,12 @@ export class CategoriesService implements OnApplicationBootstrap {
 
     await this.categoryRepository.save(defaultCategories);
   }
+
+  async findAllCategories(): Promise<Category[]> {
+    const allCategories = await this.categoryRepository.find({
+      order: { name: 'ASC' },
+    });
+
+    return allCategories;
+  }
 }
