@@ -1,11 +1,11 @@
 import { fetchOneThread, fetchRepliesOfThread } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/format";
 import CreateReplyForm from "@/components/CreateReplyForm";
 import { Button } from "@/components/ui/button";
 import DeleteThreadButton from "@/components/DeleteThreadButton";
+import ReplyItem from "@/components/ReplyItem";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -56,17 +56,7 @@ export default async function ThreadDetailPage({
           <ul className="mt-4 flex flex-col gap-4">
             {threadReplies.map((reply) => (
               <li key={reply.id}>
-                <Card>
-                  <CardContent>
-                    <p className="whitespace-pre-line">{reply.content}</p>
-                    <time
-                      className="mt-2 block text-sm text-muted-foreground"
-                      dateTime={reply.createdAt}
-                    >
-                      {formatDate(reply.createdAt)}
-                    </time>
-                  </CardContent>
-                </Card>
+                <ReplyItem reply={reply} />
               </li>
             ))}
           </ul>

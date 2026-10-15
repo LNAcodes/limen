@@ -1,5 +1,6 @@
 import type { Thread } from "@/types/thread";
 import type { Reply } from "@/types/reply";
+import { updateRequestInsights } from "next/dist/next-devtools/dev-overlay/shared";
 
 export type NewThreadData = {
   title: string;
@@ -135,5 +136,34 @@ export async function deleteThread(threadId: string): Promise<void> {
 
   if (!deleteResponse.ok) {
     throw new Error("Failed to delete thread.");
+  }
+}
+
+export async function updateReply(
+  replyId: string,
+  replyContent: string,
+): Promise<Reply> {
+  const updateResponse = await fetch(`${apiBaseUrl}/replies/${replyId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: replyContent }),
+  });
+
+  if (!updateResponse.ok) {
+    throw new Error("Failed to update reply");
+  }
+
+  const updatedReply: Reply = await updateResponse.json();
+
+  return updatedReply;
+}
+
+export async function deleteReply(replyId: string): Promise<void> {
+  const deleteResponse = await fetch(`${apiBaseUrl}/replies/${replyId}`, {
+    method: "DELETE",
+  });
+
+  if (!deleteResponse.ok) {
+    throw new Error("Failed to delete reply");
   }
 }
