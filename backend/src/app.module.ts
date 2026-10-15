@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThreadsModule } from './threads/threads.module.js';
 import { RepliesModule } from './replies/replies.module.js';
+import { CategoriesModule } from './categories/categories.module.js';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { RepliesModule } from './replies/replies.module.js';
     }),
     ThreadsModule,
     RepliesModule,
+    CategoriesModule,
   ],
 })
 export class AppModule {}
