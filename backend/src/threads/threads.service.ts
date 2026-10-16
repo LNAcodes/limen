@@ -4,16 +4,25 @@ import { Repository } from 'typeorm';
 import { Thread } from './entities/thread.entity.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
+import { CategoriesService } from '../categories/categories.service.js';
 
 @Injectable()
 export class ThreadsService {
   constructor(
     @InjectRepository(Thread)
     private readonly threadRepository: Repository<Thread>,
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   async createThread(createThreadDto: CreateThreadDto): Promise<Thread> {
-    const newThread = this.threadRepository.create(createThreadDto);
+    const { categoryId, ...threadText } = createThreadDto;
+    const chosenCategory = await this.categoriesService.findOneCategory(
+      createThreadDto.categoryId,
+    );
+    const newThread = this.threadRepository.create({
+      ...threadText,
+      category: chosenCategory,
+    });
     const savedThread = await this.threadRepository.save(newThread);
 
     return savedThread;
@@ -22,13 +31,17 @@ export class ThreadsService {
   async findAllThreads(): Promise<Thread[]> {
     const allThreads = await this.threadRepository.find({
       order: { createdAt: 'DESC' },
+      relations: { category: true },
     });
 
     return allThreads;
   }
 
   async findOneThread(threadId: string): Promise<Thread> {
-    const foundThread = await this.threadRepository.findOneBy({ id: threadId });
+    const foundThread = await this.threadRepository.findOne({
+      where: { id: threadId },
+      relations: { category: true },
+    });
 
     if (!foundThread) {
       throw new NotFoundException('Thread not found');
@@ -42,8 +55,14 @@ export class ThreadsService {
     updateThreadDto: UpdateThreadDto,
   ): Promise<Thread> {
     const existingThread = await this.findOneThread(threadId);
+    const { categoryId, ...textChanges } = updateThreadDto;
+
+    if (categoryId) {
+      existingThread.category =
+        await this.categoriesService.findOneCategory(categoryId);
+    }
     // merge(target, changes): copies the new values from the DTO into the existing thread
-    this.threadRepository.merge(existingThread, updateThreadDto);
+    this.threadRepository.merge(existingThread, textChanges);
 
     const savedThread = await this.threadRepository.save(existingThread);
 

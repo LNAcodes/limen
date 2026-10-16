@@ -1,4 +1,8 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity.js';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -40,5 +44,17 @@ export class CategoriesService implements OnApplicationBootstrap {
     });
 
     return allCategories;
+  }
+
+  async findOneCategory(categoryId: string): Promise<Category> {
+    const foundCategory = await this.categoryRepository.findOneBy({
+      id: categoryId,
+    });
+
+    if (!foundCategory) {
+      throw new NotFoundException('Category not found');
+    }
+
+    return foundCategory;
   }
 }
