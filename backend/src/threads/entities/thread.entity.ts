@@ -5,9 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import type { Relation } from 'typeorm';
 import { Reply } from '../../replies/entities/reply.entity.js';
+import { Category } from '../../categories/entities/category.entity.js';
 
 @Entity('threads')
 export class Thread {
@@ -29,4 +31,8 @@ export class Thread {
   // One thread has many replies
   @OneToMany(() => Reply, (reply) => reply.thread)
   replies: Relation<Reply[]>;
+
+  // Many threads belong to one category. If the category is deleted, the thread stays without one
+  @ManyToOne(() => Category, { nullable: true, onDelete: 'SET NULL' })
+  category: Relation<Category> | null;
 }

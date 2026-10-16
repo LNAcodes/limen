@@ -10,8 +10,9 @@ http:
     type: json
     data: |-
       {
-        "title": "Cooperation between schools and youth welfare offices",
-        "content": "Which formats work well for regular exchange between school social work and the youth welfare office?"
+        "title": "Inclusion in everyday school life",
+        "content": "Which structures help children with special needs settle into a new school?",
+      "categoryId": "568784a3-00f9-40d8-9cf7-efebe1923a15"
       }
   auth: inherit
 

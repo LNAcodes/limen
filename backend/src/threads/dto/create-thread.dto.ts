@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateThreadDto {
@@ -19,4 +19,8 @@ export class CreateThreadDto {
     maxLength: 5000,
   })
   content: string;
+
+  @IsUUID()
+  @ApiProperty({ example: '568784a3-00f9-40d8-9cf7-efebe1923a15' })
+  categoryId: string;
 }
