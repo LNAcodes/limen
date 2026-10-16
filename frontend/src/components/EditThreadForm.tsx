@@ -9,12 +9,17 @@ import { Label } from "@/components/ui/label";
 import { updateThread } from "@/lib/api";
 import type { Thread } from "@/types/thread";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import type { Category } from "@/types/category";
 
 type EditThreadFormProps = {
   thread: Thread;
+  categories: Category[];
 };
 
-export default function EditThreadForm({ thread }: EditThreadFormProps) {
+export default function EditThreadForm({
+  thread,
+  categories,
+}: EditThreadFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -26,6 +31,7 @@ export default function EditThreadForm({ thread }: EditThreadFormProps) {
     const updatedThreadData = {
       title: String(formData.get("title")),
       content: String(formData.get("content")),
+      categoryId: String(formData.get("categoryId")),
     };
 
     setIsSubmitting(true);
@@ -52,6 +58,24 @@ export default function EditThreadForm({ thread }: EditThreadFormProps) {
           maxLength={200}
           defaultValue={thread.title}
         />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="category">Category</Label>
+        <select
+          id="category"
+          name="categoryId"
+          required
+          className="rounded-md border px-3 py-2"
+          defaultValue={thread.category?.id ?? ""}
+        >
+          <option value="">Choose a category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="flex flex-col gap-2">

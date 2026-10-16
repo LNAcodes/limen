@@ -1,7 +1,7 @@
 import BackLink from "@/components/BackLink";
 import { notFound } from "next/navigation";
 import EditThreadForm from "@/components/EditThreadForm";
-import { fetchOneThread } from "@/lib/api";
+import { fetchOneThread, fetchAllCategories } from "@/lib/api";
 
 type EditThreadPageProps = {
   params: Promise<{ threadId: string }>;
@@ -16,6 +16,8 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
     notFound();
   }
 
+  const allCategories = await fetchAllCategories();
+
   return (
     <>
       <BackLink href={`/threads/${threadId}`} label="Back to thread" />
@@ -23,7 +25,7 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
       <h1 className="mt-6 text-3xl font-bold">Edit thread</h1>
 
       <div className="mt-6">
-        <EditThreadForm thread={currentThread} />
+        <EditThreadForm thread={currentThread} categories={allCategories} />
       </div>
     </>
   );

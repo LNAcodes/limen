@@ -31,6 +31,9 @@ export default async function ThreadDetailPage({
 
       <article className="mt-6">
         <h1 className="text-3xl font-bold">{currentThread.title}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {currentThread.category?.name ?? "No category"}
+        </p>
         <time
           className="mt-2 block text-sm text-muted-foreground"
           dateTime={currentThread.createdAt}
