@@ -12,6 +12,9 @@ export default function ThreadCard({ thread }: ThreadCardProps) {
     <article>
       <Card>
         <CardHeader>
+          <p className="text-sm text-muted-foreground">
+            {thread.category?.name ?? "No category"}
+          </p>
           <CardTitle>
             <h2>
               <Link href={`/threads/${thread.id}`} className="hover:underline">

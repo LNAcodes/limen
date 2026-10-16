@@ -1,10 +1,11 @@
 import type { Thread } from "@/types/thread";
 import type { Reply } from "@/types/reply";
-import { updateRequestInsights } from "next/dist/next-devtools/dev-overlay/shared";
+import type { Category } from "@/types/category";
 
 export type NewThreadData = {
   title: string;
   content: string;
+  categoryId: string;
 };
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -166,4 +167,18 @@ export async function deleteReply(replyId: string): Promise<void> {
   if (!deleteResponse.ok) {
     throw new Error("Failed to delete reply");
   }
+}
+
+export async function fetchAllCategories(): Promise<Category[]> {
+  const categoriesResponse = await fetch(`${apiBaseUrl}/categories`, {
+    cache: "no-store",
+  });
+
+  if (!categoriesResponse.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  const allCategories: Category[] = await categoriesResponse.json();
+
+  return allCategories;
 }
