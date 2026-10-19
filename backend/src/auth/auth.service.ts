@@ -22,7 +22,7 @@ export class AuthService {
 
     const savedUser = await this.usersService.createUser({
       name: registerDto.name,
-      email: registerDto.email,
+      email: normalizedEmail,
       passwordHash: passwordHash,
       professionalField: registerDto.professionalField,
     });

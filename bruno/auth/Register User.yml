@@ -1,0 +1,25 @@
+info:
+  name: Register User
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/register"
+  body:
+    type: json
+    data: |2-
+        {
+          "name": "Test Teacher5",
+          "email": "Teacher5@Example.com",
+          "password": "a-long-password-test",
+          "professionalField": "teacher"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
