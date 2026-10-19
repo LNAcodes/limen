@@ -5,11 +5,13 @@ info:
 
 http:
   method: PATCH
-  url: "{{baseUrl}}/threads/:id"
-  params:
-    - name: id
-      value: ""
-      type: path
+  url: "{{baseUrl}}/threads/4d99972e-1612-4856-9193-91eca7fefb48"
+  body:
+    type: json
+    data: |-
+      {
+        "categoryId": "1e2b6ed5-0fb9-4a16-9c44-bcd8065607f7"
+      }
   auth: inherit
 
 settings:
