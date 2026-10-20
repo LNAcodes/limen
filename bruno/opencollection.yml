@@ -15,6 +15,9 @@ config:
       bypassProxy: ""
 
 request:
+  auth:
+    type: bearer
+    token: "{{accessToken}}"
   variables:
     - name: baseUrl
       value: http://localhost:3000

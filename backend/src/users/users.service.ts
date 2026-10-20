@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity.js';
@@ -32,6 +32,17 @@ export class UsersService {
         passwordHash: true,
       },
     });
+
+    return foundUser;
+  }
+
+  // No passwordHash in the result: the column has select: false in the entity
+  async findUserById(userId: string): Promise<User> {
+    const foundUser = await this.userRepository.findOneBy({ id: userId });
+
+    if (!foundUser) {
+      throw new NotFoundException('User not found');
+    }
 
     return foundUser;
   }

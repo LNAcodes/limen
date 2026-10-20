@@ -13,18 +13,22 @@ import {
 import { ThreadsService } from './threads.service.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/decorators/public.decorator.js';
 
+@ApiBearerAuth()
 @Controller('threads')
 @ApiTags('threads')
 export class ThreadsController {
   constructor(private readonly threadsService: ThreadsService) {}
 
+  @Public()
   @Get()
   findAllThreads() {
     return this.threadsService.findAllThreads();
   }
 
+  @Public()
   @Get(':id')
   findOneThread(@Param('id', ParseUUIDPipe) threadId: string) {
     return this.threadsService.findOneThread(threadId);

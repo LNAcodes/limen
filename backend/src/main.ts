@@ -25,6 +25,9 @@ async function bootstrap() {
       'Cooperation platform for professionals in education and youth welfare',
     )
     .setVersion('1.0')
+    // Tells Swagger that the API uses JWT tokens: adds the "Authorize" button,
+    // so protected routes can be tried out instead of always returning 401
+    .addBearerAuth()
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
