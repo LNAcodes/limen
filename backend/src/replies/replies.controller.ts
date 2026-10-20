@@ -10,11 +10,13 @@ import {
   Delete,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RepliesService } from './replies.service.js';
 import { CreateReplyDto } from './dto/create-reply.dto.js';
 import { UpdateReplyDto } from './dto/update-reply.dto.js';
+import { Public } from '../auth/decorators/public.decorator.js';
 
+@ApiBearerAuth()
 @Controller()
 @ApiTags('replies')
 export class RepliesController {
@@ -28,6 +30,7 @@ export class RepliesController {
     return this.repliesService.createReply(threadId, createReplyDto);
   }
 
+  @Public()
   @Get('threads/:threadId/replies')
   findRepliesOfThread(@Param('threadId', ParseUUIDPipe) threadId: string) {
     return this.repliesService.findRepliesOfThread(threadId);
