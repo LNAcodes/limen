@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { createReply } from "@/lib/api";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 type CreateReplyFormProps = {
   threadId: string;
@@ -14,11 +16,16 @@ type CreateReplyFormProps = {
 
 export default function CreateReplyForm({ threadId }: CreateReplyFormProps) {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!session) {
+      return;
+    }
 
     const replyForm = event.currentTarget;
     const replyContent = String(new FormData(replyForm).get("content"));
@@ -27,7 +34,7 @@ export default function CreateReplyForm({ threadId }: CreateReplyFormProps) {
     setErrorMessage(null);
 
     try {
-      await createReply(threadId, replyContent);
+      await createReply(threadId, replyContent, session.accessToken);
       replyForm.reset();
       router.refresh();
     } catch {
@@ -35,6 +42,23 @@ export default function CreateReplyForm({ threadId }: CreateReplyFormProps) {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  // While NextAuth is still checking the session, show nothing (avoids a flash of the hint)
+  if (status === "loading") {
+    return null;
+  }
+
+  // Logged out: show a hint instead of the form
+  if (!session) {
+    return (
+      <p className="mt-6 text-sm">
+        <Link href="/login" className="underline">
+          Log in
+        </Link>{" "}
+        to write a reply.
+      </p>
+    );
   }
 
   return (

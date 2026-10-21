@@ -17,6 +17,14 @@ export type RegistrationData = {
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
+// Builds the headers for protected requests: JSON body plus the access token
+function createAuthHeaders(accessToken: string) {
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
+  };
+}
+
 export async function checkBackendHealth(): Promise<boolean> {
   try {
     const healthResponse = await fetch(`${apiBaseUrl}/health`, {
@@ -80,10 +88,11 @@ export async function fetchRepliesOfThread(threadId: string): Promise<Reply[]> {
 
 export async function createThread(
   newThreadData: NewThreadData,
+  accessToken: string,
 ): Promise<Thread> {
   const createResponse = await fetch(`${apiBaseUrl}/threads`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: createAuthHeaders(accessToken),
     body: JSON.stringify(newThreadData),
   });
 
@@ -99,12 +108,13 @@ export async function createThread(
 export async function createReply(
   threadId: string,
   replyContent: string,
+  accessToken: string,
 ): Promise<Reply> {
   const createResponse = await fetch(
     `${apiBaseUrl}/threads/${threadId}/replies`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: createAuthHeaders(accessToken),
       body: JSON.stringify({ content: replyContent }),
     },
   );
@@ -121,10 +131,11 @@ export async function createReply(
 export async function updateThread(
   threadId: string,
   updatedThreadData: NewThreadData,
+  accessToken: string,
 ): Promise<Thread> {
   const updatedResponse = await fetch(`${apiBaseUrl}/threads/${threadId}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: createAuthHeaders(accessToken),
     body: JSON.stringify(updatedThreadData),
   });
 
@@ -137,9 +148,13 @@ export async function updateThread(
   return updatedThread;
 }
 
-export async function deleteThread(threadId: string): Promise<void> {
+export async function deleteThread(
+  threadId: string,
+  accessToken: string,
+): Promise<void> {
   const deleteResponse = await fetch(`${apiBaseUrl}/threads/${threadId}`, {
     method: "DELETE",
+    headers: createAuthHeaders(accessToken),
   });
 
   if (!deleteResponse.ok) {
@@ -150,10 +165,11 @@ export async function deleteThread(threadId: string): Promise<void> {
 export async function updateReply(
   replyId: string,
   replyContent: string,
+  accessToken: string,
 ): Promise<Reply> {
   const updateResponse = await fetch(`${apiBaseUrl}/replies/${replyId}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: createAuthHeaders(accessToken),
     body: JSON.stringify({ content: replyContent }),
   });
 
@@ -166,9 +182,13 @@ export async function updateReply(
   return updatedReply;
 }
 
-export async function deleteReply(replyId: string): Promise<void> {
+export async function deleteReply(
+  replyId: string,
+  accessToken: string,
+): Promise<void> {
   const deleteResponse = await fetch(`${apiBaseUrl}/replies/${replyId}`, {
     method: "DELETE",
+    headers: createAuthHeaders(accessToken),
   });
 
   if (!deleteResponse.ok) {

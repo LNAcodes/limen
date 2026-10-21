@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { formatDate } from "@/lib/format";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { useSession } from "next-auth/react";
 
 type ReplyItemProps = {
   reply: Reply;
@@ -16,12 +17,17 @@ type ReplyItemProps = {
 
 export default function ReplyItem({ reply }: ReplyItemProps) {
   const router = useRouter();
+  const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function handleSave(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!session) {
+      return;
+    }
 
     const updatedContent = String(
       new FormData(event.currentTarget).get("content"),
@@ -31,7 +37,7 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
     setErrorMessage(null);
 
     try {
-      await updateReply(reply.id, updatedContent);
+      await updateReply(reply.id, updatedContent, session.accessToken);
       setIsEditing(false);
       router.refresh();
     } catch {
@@ -42,6 +48,9 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
   }
 
   async function handleDelete() {
+    if (!session) {
+      return;
+    }
     const isConfirmed = window.confirm(
       "Do you really want to delete this reply?",
     );
@@ -51,7 +60,7 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
     }
 
     try {
-      await deleteReply(reply.id);
+      await deleteReply(reply.id, session.accessToken);
       router.refresh();
     } catch {
       window.alert("Reply could not be deleted. Please try again.");
@@ -107,18 +116,25 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
                 {formatDate(reply.createdAt)}
               </time>
 
-              <div className="mt-4 flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit
-                </Button>
-                <Button variant="destructive" size="sm" onClick={handleDelete}>
-                  Delete
-                </Button>
-              </div>
+              {/* Logged out: the reply stays visible, only the buttons are hidden */}
+              {session && (
+                <div className="mt-4 flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              )}
             </>
           )}
         </CardContent>
