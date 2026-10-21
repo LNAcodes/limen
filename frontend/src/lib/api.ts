@@ -8,6 +8,13 @@ export type NewThreadData = {
   categoryId: string;
 };
 
+export type RegistrationData = {
+  name: string;
+  email: string;
+  password: string;
+  professionalField: string;
+};
+
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export async function checkBackendHealth(): Promise<boolean> {
@@ -181,4 +188,23 @@ export async function fetchAllCategories(): Promise<Category[]> {
   const allCategories: Category[] = await categoriesResponse.json();
 
   return allCategories;
+}
+
+export async function registerUser(
+  registrationData: RegistrationData,
+): Promise<void> {
+  const registerResponse = await fetch(`${apiBaseUrl}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(registrationData),
+  });
+
+  // 409 = the email already exists, the form shows a specific message for it
+  if (registerResponse.status === 409) {
+    throw new Error("EMAIL_TAKEN");
+  }
+
+  if (!registerResponse.ok) {
+    throw new Error("Failed to register");
+  }
 }
