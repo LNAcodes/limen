@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import DeleteThreadButton from "@/components/DeleteThreadButton";
 import ReplyItem from "@/components/ReplyItem";
 import BackLink from "@/components/BackLink";
+import { auth } from "@/auth";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -24,6 +25,7 @@ export default async function ThreadDetailPage({
   }
 
   const threadReplies = await fetchRepliesOfThread(threadId);
+  const session = await auth();
 
   return (
     <>
@@ -41,12 +43,15 @@ export default async function ThreadDetailPage({
           {formatDate(currentThread.createdAt)}
         </time>
         <p className="mt-4 whitespace-pre-line">{currentThread.content}</p>
-        <div className="mt-6 flex gap-2">
-          <Button asChild variant="outline">
-            <Link href={`/threads/${threadId}/edit`}>Edit</Link>
-          </Button>
-          <DeleteThreadButton threadId={threadId} />
-        </div>
+        {/* Logged out: the thread stays visible, only the buttons are hidden */}
+        {session && (
+          <div className="mt-6 flex gap-2">
+            <Button asChild variant="outline">
+              <Link href={`/threads/${threadId}/edit`}>Edit</Link>
+            </Button>
+            <DeleteThreadButton threadId={threadId} />
+          </div>
+        )}
       </article>
 
       <section className="mt-10">

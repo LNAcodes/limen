@@ -10,6 +10,7 @@ import { updateThread } from "@/lib/api";
 import type { Thread } from "@/types/thread";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import type { Category } from "@/types/category";
+import { useSession } from "next-auth/react";
 
 type EditThreadFormProps = {
   thread: Thread;
@@ -21,11 +22,16 @@ export default function EditThreadForm({
   categories,
 }: EditThreadFormProps) {
   const router = useRouter();
+  const { data: session } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!session) {
+      return;
+    }
 
     const formData = new FormData(event.currentTarget);
     const updatedThreadData = {
@@ -38,7 +44,7 @@ export default function EditThreadForm({
     setErrorMessage(null);
 
     try {
-      await updateThread(thread.id, updatedThreadData);
+      await updateThread(thread.id, updatedThreadData, session.accessToken);
       router.push(`/threads/${thread.id}`);
       router.refresh();
     } catch {
