@@ -11,6 +11,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Reads the token from the "Authorization: Bearer ..." header and checks its signature
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // getOrThrow instead of get: the app refuses to start if JWT_SECRET is missing,
+      // so the error shows up immediately instead of breaking login later
       secretOrKey: configService.getOrThrow<string>('JWT_SECRET'),
     });
   }
