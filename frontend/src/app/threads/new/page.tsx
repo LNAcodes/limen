@@ -1,5 +1,5 @@
 import BackLink from "@/components/BackLink";
-import CreateThreadForm from "@/components/CreatThreadForm";
+import CreateThreadForm from "@/components/CreateThreadForm";
 import { fetchAllCategories } from "@/lib/api";
 
 export default async function NewThreadPage() {
