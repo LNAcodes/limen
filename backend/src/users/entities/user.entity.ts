@@ -15,7 +15,8 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  // Email is private: never loaded unless a query asks for it explicitly
+  @Column({ type: 'varchar', length: 255, unique: true, select: false })
   email: string;
 
   // Only the bcrypt hash is stored. select: false keeps it out of normal queries

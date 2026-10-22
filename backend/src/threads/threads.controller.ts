@@ -15,6 +15,8 @@ import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/decorators/public.decorator.js';
+import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
+import type { AuthenticatedUser } from '../users/types/user.types.js';
 
 @ApiBearerAuth()
 @Controller('threads')
@@ -35,8 +37,14 @@ export class ThreadsController {
   }
 
   @Post()
-  createThread(@Body() createThreadDto: CreateThreadDto) {
-    return this.threadsService.createThread(createThreadDto);
+  createThread(
+    @Body() createThreadDto: CreateThreadDto,
+    @CurrentUser() currentUser: AuthenticatedUser,
+  ) {
+    return this.threadsService.createThread(
+      createThreadDto,
+      currentUser.userId,
+    );
   }
 
   @Patch(':id')
