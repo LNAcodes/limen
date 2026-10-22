@@ -5,16 +5,12 @@ info:
 
 http:
   method: POST
-  url: "{{baseUrl}}/threads/:threadId/replies"
-  params:
-    - name: threadId
-      value: ""
-      type: path
+  url: "{{baseUrl}}/threads/ab4ca424-4bdf-4805-95ed-a025640f1656/replies"
   body:
     type: json
     data: |-
       {
-          "content": "At our school, we meet with the daycare centers twice a year."
+          "content": "TestTicket48 At our school, we meet with the daycare centers twice a year."
         }
   auth: inherit
 

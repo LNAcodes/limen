@@ -47,13 +47,21 @@ export class RepliesController {
   updateReply(
     @Param('id', ParseUUIDPipe) replyId: string,
     @Body() updateReplyDto: UpdateReplyDto,
+    @CurrentUser() currentUser: AuthenticatedUser,
   ) {
-    return this.repliesService.updateReply(replyId, updateReplyDto);
+    return this.repliesService.updateReply(
+      replyId,
+      updateReplyDto,
+      currentUser,
+    );
   }
 
   @Delete('replies/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeReply(@Param('id', ParseUUIDPipe) replyId: string) {
-    return this.repliesService.removeReply(replyId);
+  removeReply(
+    @Param('id', ParseUUIDPipe) replyId: string,
+    @CurrentUser() currentUser: AuthenticatedUser,
+  ) {
+    return this.repliesService.removeReply(replyId, currentUser);
   }
 }

@@ -5,6 +5,8 @@ import { Thread } from './entities/thread.entity.js';
 import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
 import { CategoriesService } from '../categories/categories.service.js';
+import type { AuthenticatedUser } from '../users/types/user.types.js';
+import { assertIsAuthor } from '../auth/ownership.js';
 
 @Injectable()
 export class ThreadsService {
@@ -60,8 +62,13 @@ export class ThreadsService {
   async updateThread(
     threadId: string,
     updateThreadDto: UpdateThreadDto,
+    currentUser: AuthenticatedUser,
   ): Promise<Thread> {
     const existingThread = await this.findOneThread(threadId);
+
+    // Only the author may edit (403 otherwise)
+    assertIsAuthor(existingThread.author?.id, currentUser.userId);
+
     const { categoryId, ...textChanges } = updateThreadDto;
 
     if (categoryId) {
@@ -76,8 +83,14 @@ export class ThreadsService {
     return savedThread;
   }
 
-  async removeThread(threadId: string): Promise<void> {
+  async removeThread(
+    threadId: string,
+    currentUser: AuthenticatedUser,
+  ): Promise<void> {
     const threadToRemove = await this.findOneThread(threadId);
+
+    // Only the author may remove (403 otherwise)
+    assertIsAuthor(threadToRemove.author?.id, currentUser.userId);
 
     await this.threadRepository.remove(threadToRemove);
     // TypeOrm: remove() instead of delete(): we already loaded the entity for the 404 check, and remove() also handles related data (cascades)
