@@ -4,5 +4,5 @@ variables:
     value: http://localhost:3000
     description: ""
   - name: accessToken
-    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NzI0MzQ2YS05YWU2LTRkM2YtOGI5NC00ODNjZDg1OTZhN2IiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MjY2MDY4MCwiZXhwIjoxNzkyNzQ3MDgwfQ.oua9IcInSO_BuGm2VkFf1PKZo5Zw6_NYkb6oOACr_VY
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NzRiZTc0Ni05NjYxLTQ4MjgtOWQxMS04OTNjZTcwMzZjOTYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc5MjY3MTM4NiwiZXhwIjoxNzkyNzU3Nzg2fQ.s4ETQ86pAGTcQ4ceVF3_GoNYevCx8aHxHODkbsqhd3Q
     description: ""

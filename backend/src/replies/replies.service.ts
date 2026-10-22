@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { CreateReplyDto } from './dto/create-reply.dto.js';
 import { ThreadsService } from '../threads/threads.service.js';
 import { UpdateReplyDto } from './dto/update-reply.dto.js';
+import type { AuthenticatedUser } from '../users/types/user.types.js';
+import { assertIsAuthor } from '../auth/ownership.js';
 
 @Injectable()
 export class RepliesService {
@@ -45,7 +47,10 @@ export class RepliesService {
   }
 
   async findOneReply(replyId: string): Promise<Reply> {
-    const foundReply = await this.replyRepository.findOneBy({ id: replyId });
+    const foundReply = await this.replyRepository.findOne({
+      where: { id: replyId },
+      relations: { author: true },
+    });
 
     if (!foundReply) {
       throw new NotFoundException('Reply not found');
@@ -57,8 +62,12 @@ export class RepliesService {
   async updateReply(
     replyId: string,
     updateReplyDto: UpdateReplyDto,
+    currentUser: AuthenticatedUser,
   ): Promise<Reply> {
     const existingReply = await this.findOneReply(replyId);
+
+    // Only the author may edit (403 otherwise)
+    assertIsAuthor(existingReply.author?.id, currentUser.userId);
 
     this.replyRepository.merge(existingReply, updateReplyDto);
 
@@ -67,8 +76,14 @@ export class RepliesService {
     return savedReply;
   }
 
-  async removeReply(replyId: string): Promise<void> {
+  async removeReply(
+    replyId: string,
+    currentUser: AuthenticatedUser,
+  ): Promise<void> {
     const replyToRemove = await this.findOneReply(replyId);
+
+    // Only the author may remove (403 otherwise)
+    assertIsAuthor(replyToRemove.author?.id, currentUser.userId);
 
     await this.replyRepository.remove(replyToRemove);
   }

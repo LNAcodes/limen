@@ -51,13 +51,21 @@ export class ThreadsController {
   updateThread(
     @Param('id', ParseUUIDPipe) threadId: string,
     @Body() updateThreadDto: UpdateThreadDto,
+    @CurrentUser() currentUser: AuthenticatedUser,
   ) {
-    return this.threadsService.updateThread(threadId, updateThreadDto);
+    return this.threadsService.updateThread(
+      threadId,
+      updateThreadDto,
+      currentUser,
+    );
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeThread(@Param('id', ParseUUIDPipe) threadId: string) {
-    return this.threadsService.removeThread(threadId);
+  removeThread(
+    @Param('id', ParseUUIDPipe) threadId: string,
+    @CurrentUser() currentUser: AuthenticatedUser,
+  ) {
+    return this.threadsService.removeThread(threadId, currentUser);
   }
 }
