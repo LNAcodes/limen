@@ -38,7 +38,17 @@ export class UsersService {
 
   // No passwordHash in the result: the column has select: false in the entity
   async findUserById(userId: string): Promise<User> {
-    const foundUser = await this.userRepository.findOneBy({ id: userId });
+    const foundUser = await this.userRepository.findOne({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        professionalField: true,
+        createdAt: true,
+      },
+    });
 
     if (!foundUser) {
       throw new NotFoundException('User not found');

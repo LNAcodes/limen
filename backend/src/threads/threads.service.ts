@@ -14,14 +14,21 @@ export class ThreadsService {
     private readonly categoriesService: CategoriesService,
   ) {}
 
-  async createThread(createThreadDto: CreateThreadDto): Promise<Thread> {
+  async createThread(
+    createThreadDto: CreateThreadDto,
+    authorId: string,
+  ): Promise<Thread> {
     const { categoryId, ...threadText } = createThreadDto;
+
     const chosenCategory = await this.categoriesService.findOneCategory(
       createThreadDto.categoryId,
     );
+
     const newThread = this.threadRepository.create({
       ...threadText,
       category: chosenCategory,
+      // TypeORM only needs the id to set the relation
+      author: { id: authorId },
     });
     const savedThread = await this.threadRepository.save(newThread);
 
@@ -31,7 +38,7 @@ export class ThreadsService {
   async findAllThreads(): Promise<Thread[]> {
     const allThreads = await this.threadRepository.find({
       order: { createdAt: 'DESC' },
-      relations: { category: true },
+      relations: { category: true, author: true },
     });
 
     return allThreads;
@@ -40,7 +47,7 @@ export class ThreadsService {
   async findOneThread(threadId: string): Promise<Thread> {
     const foundThread = await this.threadRepository.findOne({
       where: { id: threadId },
-      relations: { category: true },
+      relations: { category: true, author: true },
     });
 
     if (!foundThread) {

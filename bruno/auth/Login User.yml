@@ -10,11 +10,9 @@ http:
     type: json
     data: |-
       {
-          "name": "Test Teacher5",
-          "email": "Teacher5@Example.com",
-          "password": "a-long-password-test",
-          "professionalField": "teacher"
-        }
+        "email": "teacher5@example.com",
+        "password": "a-long-password-test"
+      }
   auth: inherit
 
 settings:

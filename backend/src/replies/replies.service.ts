@@ -17,12 +17,15 @@ export class RepliesService {
   async createReply(
     threadId: string,
     createReplyDto: CreateReplyDto,
+    authorId: string,
   ): Promise<Reply> {
     const parentThread = await this.threadsService.findOneThread(threadId);
 
     const newReply = this.replyRepository.create({
       ...createReplyDto,
       thread: parentThread,
+      // TypeORM only needs the id to set the relation
+      author: { id: authorId },
     });
     const savedReply = await this.replyRepository.save(newReply);
 
@@ -35,6 +38,7 @@ export class RepliesService {
     const threadReplies = await this.replyRepository.find({
       where: { thread: { id: threadId } },
       order: { createdAt: 'ASC' },
+      relations: { author: true },
     });
 
     return threadReplies;

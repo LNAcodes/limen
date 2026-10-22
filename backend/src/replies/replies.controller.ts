@@ -15,6 +15,8 @@ import { RepliesService } from './replies.service.js';
 import { CreateReplyDto } from './dto/create-reply.dto.js';
 import { UpdateReplyDto } from './dto/update-reply.dto.js';
 import { Public } from '../auth/decorators/public.decorator.js';
+import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
+import type { AuthenticatedUser } from '../users/types/user.types.js';
 
 @ApiBearerAuth()
 @Controller()
@@ -26,8 +28,13 @@ export class RepliesController {
   createReply(
     @Param('threadId', ParseUUIDPipe) threadId: string,
     @Body() createReplyDto: CreateReplyDto,
+    @CurrentUser() currentUser: AuthenticatedUser,
   ) {
-    return this.repliesService.createReply(threadId, createReplyDto);
+    return this.repliesService.createReply(
+      threadId,
+      createReplyDto,
+      currentUser.userId,
+    );
   }
 
   @Public()
