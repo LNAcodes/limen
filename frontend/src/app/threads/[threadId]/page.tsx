@@ -8,6 +8,7 @@ import DeleteThreadButton from "@/components/DeleteThreadButton";
 import ReplyItem from "@/components/ReplyItem";
 import BackLink from "@/components/BackLink";
 import { auth } from "@/auth";
+import AuthorLine from "@/components/AuthorLine";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -36,6 +37,7 @@ export default async function ThreadDetailPage({
         <p className="mt-1 text-sm text-muted-foreground">
           {currentThread.category?.name ?? "No category"}
         </p>
+        <AuthorLine author={currentThread.author} />
         <time
           className="mt-2 block text-sm text-muted-foreground"
           dateTime={currentThread.createdAt}

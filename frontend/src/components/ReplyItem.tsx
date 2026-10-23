@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { formatDate } from "@/lib/format";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useSession } from "next-auth/react";
+import AuthorLine from "@/components/AuthorLine";
 
 type ReplyItemProps = {
   reply: Reply;
@@ -115,7 +116,7 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
               >
                 {formatDate(reply.createdAt)}
               </time>
-
+              <AuthorLine author={reply.author} />
               {/* Logged out: the reply stays visible, only the buttons are hidden */}
               {session && (
                 <div className="mt-4 flex gap-2">
