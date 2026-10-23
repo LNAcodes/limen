@@ -9,6 +9,7 @@ import ReplyItem from "@/components/ReplyItem";
 import BackLink from "@/components/BackLink";
 import { auth } from "@/auth";
 import AuthorLine from "@/components/AuthorLine";
+import { isAuthor, canDelete } from "@/lib/permissions";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -28,6 +29,16 @@ export default async function ThreadDetailPage({
   const threadReplies = await fetchRepliesOfThread(threadId);
   const session = await auth();
 
+  const currentUserId = session?.user.id;
+  const currentUserRole = session?.user.role;
+
+  const userIsAuthor = isAuthor(currentThread.author, currentUserId);
+  const userCanDelete = canDelete(
+    currentThread.author,
+    currentUserId,
+    currentUserRole,
+  );
+
   return (
     <>
       <BackLink href="/threads" label="Back to all threads" />
@@ -45,13 +56,15 @@ export default async function ThreadDetailPage({
           {formatDate(currentThread.createdAt)}
         </time>
         <p className="mt-4 whitespace-pre-line">{currentThread.content}</p>
-        {/* Logged out: the thread stays visible, only the buttons are hidden */}
-        {session && (
+        {/* Edit only for the author, delete for the author or admins. Logged out: no buttons */}
+        {(userIsAuthor || userCanDelete) && (
           <div className="mt-6 flex gap-2">
-            <Button asChild variant="outline">
-              <Link href={`/threads/${threadId}/edit`}>Edit</Link>
-            </Button>
-            <DeleteThreadButton threadId={threadId} />
+            {userIsAuthor && (
+              <Button asChild variant="outline">
+                <Link href={`/threads/${threadId}/edit`}>Edit</Link>
+              </Button>
+            )}
+            {userCanDelete && <DeleteThreadButton threadId={threadId} />}
           </div>
         )}
       </article>
