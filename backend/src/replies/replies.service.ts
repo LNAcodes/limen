@@ -6,7 +6,7 @@ import { CreateReplyDto } from './dto/create-reply.dto.js';
 import { ThreadsService } from '../threads/threads.service.js';
 import { UpdateReplyDto } from './dto/update-reply.dto.js';
 import type { AuthenticatedUser } from '../users/types/user.types.js';
-import { assertIsAuthor } from '../auth/ownership.js';
+import { assertIsAuthor, assertIsAuthorOrAdmin } from '../auth/ownership.js';
 
 @Injectable()
 export class RepliesService {
@@ -83,7 +83,7 @@ export class RepliesService {
     const replyToRemove = await this.findOneReply(replyId);
 
     // Only the author may remove (403 otherwise)
-    assertIsAuthor(replyToRemove.author?.id, currentUser.userId);
+    assertIsAuthorOrAdmin(replyToRemove.author?.id, currentUser);
 
     await this.replyRepository.remove(replyToRemove);
   }
