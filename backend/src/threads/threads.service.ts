@@ -6,7 +6,7 @@ import { CreateThreadDto } from './dto/create-thread.dto.js';
 import { UpdateThreadDto } from './dto/update-thread.dto.js';
 import { CategoriesService } from '../categories/categories.service.js';
 import type { AuthenticatedUser } from '../users/types/user.types.js';
-import { assertIsAuthor } from '../auth/ownership.js';
+import { assertIsAuthor, assertIsAuthorOrAdmin } from '../auth/ownership.js';
 
 @Injectable()
 export class ThreadsService {
@@ -90,7 +90,7 @@ export class ThreadsService {
     const threadToRemove = await this.findOneThread(threadId);
 
     // Only the author may remove (403 otherwise)
-    assertIsAuthor(threadToRemove.author?.id, currentUser.userId);
+    assertIsAuthorOrAdmin(threadToRemove.author?.id, currentUser);
 
     await this.threadRepository.remove(threadToRemove);
     // TypeOrm: remove() instead of delete(): we already loaded the entity for the 404 check, and remove() also handles related data (cascades)
