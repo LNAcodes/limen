@@ -2,6 +2,7 @@ import type { Thread } from "@/types/thread";
 import { createContentPreview, formatDate } from "@/lib/format";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import AuthorLine from "@/components/AuthorLine";
 
 type ThreadCardProps = {
   thread: Thread;
@@ -22,6 +23,7 @@ export default function ThreadCard({ thread }: ThreadCardProps) {
               </Link>
             </h2>
           </CardTitle>
+          <AuthorLine author={thread.author} />
         </CardHeader>
         <CardContent>
           <p>{createContentPreview(thread.content)}</p>

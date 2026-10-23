@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { formatDate } from "@/lib/format";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useSession } from "next-auth/react";
+import AuthorLine from "@/components/AuthorLine";
+import { isAuthor, canDelete } from "@/lib/permissions";
 
 type ReplyItemProps = {
   reply: Reply;
@@ -21,6 +23,12 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const currentUserId = session?.user.id;
+  const currentUserRole = session?.user.role;
+
+  const userIsAuthor = isAuthor(reply.author, currentUserId);
+  const userCanDelete = canDelete(reply.author, currentUserId, currentUserRole);
 
   async function handleSave(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -115,24 +123,28 @@ export default function ReplyItem({ reply }: ReplyItemProps) {
               >
                 {formatDate(reply.createdAt)}
               </time>
-
-              {/* Logged out: the reply stays visible, only the buttons are hidden */}
-              {session && (
+              <AuthorLine author={reply.author} />
+              {/* Edit only for the author, delete for the author or admins. Logged out: no buttons */}
+              {(userIsAuthor || userCanDelete) && (
                 <div className="mt-4 flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsEditing(true)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </Button>
+                  {userIsAuthor && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      Edit
+                    </Button>
+                  )}
+                  {userCanDelete && (
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </Button>
+                  )}
                 </div>
               )}
             </>
