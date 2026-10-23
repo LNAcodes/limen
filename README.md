@@ -57,8 +57,7 @@ posts can be removed, even if the person who created them is no longer
 active.
 
 **When an account is deleted, its posts remain and are anonymized.**
-Instead of the name, "Ehemaliges Mitglied" (former member) is shown,
-while the professional field stays visible. Discussions are not lost,
+Instead of the name "former member" is shown. Discussions are not lost,
 and the person can no longer be identified.
 
 Archiving instead of permanent deletion and deactivating accounts are
@@ -97,44 +96,68 @@ registration.
 - Anonymization of posts from deleted accounts
 - Professional field visible on every post, so it is clear from which
   perspective someone is speaking
-- Pagination for threads and replies
 - Responsive design (mobile first)
 
-## Extensions (by Priority)
+## Status
+
+- [x] Thread CRUD and reply CRUD
+- [x] Categories (seeded on startup)
+- [x] Registration and login (Passport + JWT in the backend, NextAuth in the frontend)
+- [x] Protected routes: reading is public, writing requires login
+- [x] Ownership: only authors can edit or delete their own posts
+- [x] Admin moderation: admins can delete all posts
+- [x] Anonymization of posts from deleted accounts
+- [x] Author name and professional field shown on every post
+- [ ] Automated tests (Vitest, Supertest)
+
+## Extensions
+
+**Planned for the capstone if time allows**
+
+- Live updates of new replies with Socket.io
+- AI summary of long discussions (Mistral, free plan)
+- Local database with Docker Compose
+- Success messages (toasts)
+
+**Future extensions (by priority)**
 
 1. **Verification of professionals by admins** (makes the platform
    closed)
-2. Archiving instead of deleting (soft delete)
-3. Deactivating accounts instead of deleting them
-4. Filter by professional field or level (e.g. "What does practice say
+2. Email verification after registration
+3. Deleting your own account in the app (posts stay and are
+   anonymized, this is already prepared in the database)
+4. Archiving instead of deleting (soft delete)
+5. Deactivating accounts instead of deleting them
+6. Pagination for threads and replies
+7. Filter by professional field or level (e.g. "What does practice say
    about this topic?")
-5. Search in threads
-6. Progressive Web App (PWA): installable on phones, opens like a
+8. Search in threads
+9. Progressive Web App (PWA): installable on phones, opens like a
    native app
 
 ## Tech Stack
 
-| Area             | Technology                                            |
-| ---------------- | ----------------------------------------------------- |
-| Backend          | NestJS 12 (ESM), TypeScript                           |
-| API              | RESTful, stateless                                    |
-| Database         | PostgreSQL                                            |
-| ORM              | TypeORM                                               |
-| Auth             | Passport, JWT, bcrypt                                 |
-| Validation       | class-validator, class-transformer, DTOs              |
-| API docs         | Swagger (@nestjs/swagger)                             |
-| Frontend         | Next.js (App Router), TypeScript, Tailwind, shadcn/ui |
-| Testing          | Vitest, Supertest                                     |
-| API testing      | Bruno                                                 |
-| Package manager  | Bun                                                   |
-| Deployment       | Render (backend, DB), Vercel (frontend)               |
-| Project planning | GitHub Projects (Kanban, tickets)                     |
+| Area             | Technology                                                |
+| ---------------- | --------------------------------------------------------- |
+| Backend          | NestJS 12 (ESM), TypeScript                               |
+| API              | RESTful, stateless                                        |
+| Database         | PostgreSQL                                                |
+| ORM              | TypeORM                                                   |
+| Auth             | Passport, JWT, bcrypt(backend), NextAuth.js v5 (frontend) |
+| Validation       | class-validator, class-transformer, DTOs                  |
+| API docs         | Swagger (@nestjs/swagger)                                 |
+| Frontend         | Next.js (App Router), TypeScript, Tailwind, shadcn/ui     |
+| Testing          | Vitest, Supertest                                         |
+| API testing      | Bruno                                                     |
+| Package manager  | Bun                                                       |
+| Deployment       | Render (backend, DB), Vercel (frontend)                   |
+| Project planning | GitHub Projects (Kanban, tickets)                         |
 
-## Data Model (First Draft)
+## Data Model
 
-- **User**: id, name, email, passwordHash, role (USER / ADMIN),
+- **User**: id, name, email (unique, private), passwordHash, role (USER / ADMIN),
   professionalField, createdAt
-- **Category**: id, name, description
+- **Category**: id, name(unique), createdAt
 - **Thread**: id, title, content, authorId → User (optional),
   categoryId → Category, createdAt, updatedAt
 - **Reply**: id, content, authorId → User (optional),
@@ -234,6 +257,12 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
 - `BUN_VERSION`: Bun version used for install and build
 - `NODE_VERSION`: Node version used to run the app
 - `FRONTEND_URL`: live frontend URL, only this origin may call the API (CORS)
+- `BUN_VERSION`, `NODE_VERSION`: runtime versions
+
+**Environment variables on Vercel (frontend):**
+
+- `NEXT_PUBLIC_API_URL`: URL of the backend
+- `AUTH_SECRET`: secret for encrypting the NextAuth session cookie
 
 **Notes:**
 
