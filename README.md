@@ -96,7 +96,6 @@ registration.
 - Anonymization of posts from deleted accounts
 - Professional field visible on every post, so it is clear from which
   perspective someone is speaking
-- Pagination for threads and replies
 - Responsive design (mobile first)
 
 ## Status
@@ -111,16 +110,29 @@ registration.
 - [x] Author name and professional field shown on every post
 - [ ] Automated tests (Vitest, Supertest)
 
-## Extensions (by Priority)
+## Extensions
+
+**Planned for the capstone if time allows**
+
+- Live updates of new replies with Socket.io
+- AI summary of long discussions (Mistral, free plan)
+- Local database with Docker Compose
+- Success messages (toasts)
+
+**Future extensions (by priority)**
 
 1. **Verification of professionals by admins** (makes the platform
    closed)
-2. Archiving instead of deleting (soft delete)
-3. Deactivating accounts instead of deleting them
-4. Filter by professional field or level (e.g. "What does practice say
+2. Email verification after registration
+3. Deleting your own account in the app (posts stay and are
+   anonymized, this is already prepared in the database)
+4. Archiving instead of deleting (soft delete)
+5. Deactivating accounts instead of deleting them
+6. Pagination for threads and replies
+7. Filter by professional field or level (e.g. "What does practice say
    about this topic?")
-5. Search in threads
-6. Progressive Web App (PWA): installable on phones, opens like a
+8. Search in threads
+9. Progressive Web App (PWA): installable on phones, opens like a
    native app
 
 ## Tech Stack
