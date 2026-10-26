@@ -175,10 +175,31 @@ Relations:
 
 ## Testing
 
-- Unit tests for services (e.g. permission logic) with Vitest
-- Integration tests for API endpoints (e.g. thread CRUD and auth) with
-  Supertest
-- Manual API tests with Bruno (collection in the `bruno/` folder)
+**Unit tests** (Vitest, `@nestjs/testing`)
+
+- `ThreadsService.findOneThread`: returns the thread, or throws a 404 when it does not exist
+- The repository and other services are replaced with mocks, so no database is needed
+
+**Integration tests** (Vitest, Supertest)
+
+- Start the complete app with the real PostgreSQL database
+- Register and log in a test user, then test the thread endpoints:
+  create without token (401), create (201), empty title (400),
+  read (200), unknown id (404), delete (204)
+- Test data is removed again at the end
+
+**Manual API tests** with Bruno (collection in the `bruno/` folder)
+
+**Run the tests**
+
+```
+cd backend
+bun run test        # unit tests
+bun run test:e2e    # integration tests (Postgres must be running)
+```
+
+Note: the integration tests use the development database `limen_dev`.
+A separate test database would be a next step.
 
 ## Local Development
 
