@@ -177,8 +177,11 @@ Relations:
 
 **Unit tests** (Vitest, `@nestjs/testing`)
 
-- `ThreadsService.findOneThread`: returns the thread, or throws a 404 when it does not exist
-- The repository and other services are replaced with mocks, so no database is needed
+- **`threads.service.spec.ts`**: `ThreadsService.findOneThread` returns the thread, or throws a 404 (`NotFoundException`) when it does not exist. The repository and the categories service are replaced with mocks, so no database is needed.
+- **`ownership.spec.ts`**: the ownership rules for editing and deleting posts. No mocks needed, because the functions are pure.
+  - Only the author can edit a post
+  - The author and admins can delete a post
+  - Nobody can edit an anonymized post (author deleted), only admins can delete it
 
 **Integration tests** (Vitest, Supertest)
 
