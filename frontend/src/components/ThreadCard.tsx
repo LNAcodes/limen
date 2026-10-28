@@ -3,6 +3,7 @@ import { createContentPreview, formatDate } from "@/lib/format";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import AuthorLine from "@/components/AuthorLine";
+import CategoryBadge from "@/components/Category.Badge";
 
 type ThreadCardProps = {
   thread: Thread;
@@ -13,9 +14,9 @@ export default function ThreadCard({ thread }: ThreadCardProps) {
     <article>
       <Card>
         <CardHeader>
-          <p className="text-sm text-muted-foreground">
-            {thread.category?.name ?? "No category"}
-          </p>
+          {thread.category && (
+            <CategoryBadge categoryName={thread.category.name} />
+          )}
           <CardTitle>
             <h2>
               <Link href={`/threads/${thread.id}`} className="hover:underline">
