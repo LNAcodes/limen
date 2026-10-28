@@ -28,9 +28,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <Providers>
+          {/* Skip link: hidden until keyboard focus, lets users jump over the header */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+          >
+            Skip to content
+          </a>
           <SiteHeader />
           {/* Shared page wrapper for all pages (like a base template) */}
-          <main className="mx-auto w-full max-w-2x1 px-6 py-12 sm:px-8">
+          <main
+            id="main-content"
+            className="mx-auto w-full max-w-5xl px-6 py-12 sm:px-8"
+          >
             {children}
           </main>
         </Providers>
