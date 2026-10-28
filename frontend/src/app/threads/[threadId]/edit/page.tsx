@@ -19,7 +19,7 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
   const allCategories = await fetchAllCategories();
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-2xl">
       <BackLink href={`/threads/${threadId}`} label="Back to thread" />
 
       <h1 className="mt-6 text-3xl font-bold">Edit thread</h1>
@@ -27,6 +27,6 @@ export default async function EditThreadPage({ params }: EditThreadPageProps) {
       <div className="mt-6">
         <EditThreadForm thread={currentThread} categories={allCategories} />
       </div>
-    </>
+    </div>
   );
 }

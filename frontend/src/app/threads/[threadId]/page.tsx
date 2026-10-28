@@ -40,7 +40,7 @@ export default async function ThreadDetailPage({
   );
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-2xl">
       <BackLink href="/threads" label="Back to all threads" />
 
       <article className="mt-6">
@@ -85,6 +85,6 @@ export default async function ThreadDetailPage({
         )}
         <CreateReplyForm threadId={threadId} />
       </section>
-    </>
+    </div>
   );
 }

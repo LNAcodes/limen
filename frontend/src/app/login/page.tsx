@@ -3,7 +3,7 @@ import LoginForm from "@/components/LoginForm";
 
 export default function LoginPage() {
   return (
-    <>
+    <div className="mx-auto w-full max-w-2xl">
       <h1 className="text-3xl font-bold">Log in</h1>
 
       <div className="mt-6">
@@ -16,6 +16,6 @@ export default function LoginPage() {
           Register
         </Link>
       </p>
-    </>
+    </div>
   );
 }

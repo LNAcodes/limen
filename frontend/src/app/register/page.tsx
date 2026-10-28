@@ -3,7 +3,7 @@ import RegisterForm from "@/components/RegisterForm";
 
 export default function RegisterPage() {
   return (
-    <>
+    <div className="mx-auto w-full max-w-2xl">
       <h1 className="text-3xl font-bold">Create account</h1>
 
       <div className="mt-6">
@@ -16,6 +16,6 @@ export default function RegisterPage() {
           Log in
         </Link>
       </p>
-    </>
+    </div>
   );
 }
