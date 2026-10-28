@@ -10,6 +10,7 @@ import BackLink from "@/components/BackLink";
 import { auth } from "@/auth";
 import AuthorLine from "@/components/AuthorLine";
 import { isAuthor, canDelete } from "@/lib/permissions";
+import CategoryBadge from "@/components/Category.Badge";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
@@ -44,10 +45,10 @@ export default async function ThreadDetailPage({
       <BackLink href="/threads" label="Back to all threads" />
 
       <article className="mt-6">
+        {currentThread.category && (
+          <CategoryBadge categoryName={currentThread.category.name} />
+        )}
         <h1 className="text-3xl font-bold">{currentThread.title}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {currentThread.category?.name ?? "No category"}
-        </p>
         <AuthorLine author={currentThread.author} />
         <time
           className="mt-2 block text-sm text-muted-foreground"
