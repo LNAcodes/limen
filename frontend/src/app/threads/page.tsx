@@ -3,8 +3,12 @@ import { fetchAllThreads } from "@/lib/api";
 import type { Thread } from "@/types/thread";
 import Link from "next/link";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/auth";
 
 export default async function ThreadsPage() {
+  const session = await auth();
+
   let allThreads: Thread[] = [];
   let loadingFailed = false;
 
@@ -19,10 +23,20 @@ export default async function ThreadsPage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Threads</h1>
-      <Link href="/threads/new" className="mt-4 inline-block underline">
-        New thread
-      </Link>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Threads</h1>
+          <p className="mt-1 text-muted-foreground">
+            Exchange between schools, daycare and youth welfare.
+          </p>
+        </div>
+        {/* Only logged-in users can start a thread */}
+        {session && (
+          <Button asChild>
+            <Link href="/threads/new">New thread</Link>
+          </Button>
+        )}
+      </div>
 
       {loadingFailed && (
         <Alert variant="destructive" className="mt-6">

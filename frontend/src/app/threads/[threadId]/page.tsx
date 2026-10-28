@@ -10,7 +10,7 @@ import BackLink from "@/components/BackLink";
 import { auth } from "@/auth";
 import AuthorLine from "@/components/AuthorLine";
 import { isAuthor, canDelete } from "@/lib/permissions";
-import CategoryBadge from "@/components/Category.Badge";
+import CategoryBadge from "@/components/CategoryBadge";
 
 type ThreadDetailPageProps = {
   params: Promise<{ threadId: string }>;
