@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Req,
   Get,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -24,6 +25,7 @@ import { LoginDto } from './dto/login.dto.js';
 import type { AuthenticatedUser, SafeUser } from '../users/types/user.types.js';
 import { Public } from './decorators/public.decorator.js';
 import { UsersService } from '../users/users.service.js';
+import { CurrentUser } from './decorators/current-user.decorator.js';
 
 @ApiBearerAuth()
 @ApiTags('auth')
@@ -60,5 +62,13 @@ export class AuthController {
   @ApiOperation({ summary: 'Get the logged-in user' })
   getCurrentUser(@Req() request: Request & { user: AuthenticatedUser }) {
     return this.usersService.findUserById(request.user.userId);
+  }
+
+  // The logged-in user deletes their own account.
+  // 204 No Content: success, but nothing to send back.
+  @Delete('me')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  removeMe(@CurrentUser() currentUser: AuthenticatedUser): Promise<void> {
+    return this.usersService.removeUser(currentUser.userId);
   }
 }

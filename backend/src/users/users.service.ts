@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   OnApplicationBootstrap,
+  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -99,5 +100,19 @@ export class UsersService implements OnApplicationBootstrap {
     }
 
     return foundUser;
+  }
+
+  // Delete the logged-in user's own account.
+  // Their threads and replies stay in the forum: author uses onDelete SET NULL, so the database turns them into "Former member" posts automatically.
+  async removeUser(userId: string): Promise<void> {
+    const userToRemove = await this.findUserById(userId);
+
+    // Admins cannot delete themselves, so the platform always keeps an admin
+
+    if (userToRemove.role === UserRole.ADMIN) {
+      throw new ForbiddenException('Admins cannot delete their own account');
+    }
+
+    await this.userRepository.remove(userToRemove);
   }
 }
