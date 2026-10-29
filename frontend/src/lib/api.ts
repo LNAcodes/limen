@@ -245,3 +245,14 @@ export async function getCurrentUser(
 
   return response.json();
 }
+
+export async function deleteCurrentUser(accessToken: string): Promise<void> {
+  const response = await fetch(`${apiBaseUrl}/auth/me`, {
+    method: "DELETE",
+    headers: createAuthHeaders(accessToken),
+  });
+
+  if (!response.ok) {
+    throw new Error("Account could not be deleted");
+  }
+}

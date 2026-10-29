@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/api";
 import { getProfessionalFieldLabel } from "@/lib/professional-fields";
 import { Card, CardContent } from "@/components/ui/card";
 import { redirect } from "next/navigation";
+import DeleteAccountSection from "@/components/DeleteAccountSection";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -49,6 +50,8 @@ export default async function ProfilePage() {
           </p>
         </CardContent>
       </Card>
+      {/* Admins cannot delete their own account (the backend also blocks it) */}
+      {currentUser.role !== "admin" && <DeleteAccountSection />}
     </div>
   );
 }
