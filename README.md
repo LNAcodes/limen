@@ -143,11 +143,17 @@ registration.
 
 ## Known Limitations
 
+- No email verification yet: only the email format is checked
+- The access token is available in the browser session (next step:
+  send requests through the Next.js server instead)
 - After a user deletes their account, their JWT stays technically valid
   until it expires (1 day). The frontend logs the user out right away,
   so this only matters for direct API calls.
 - Admins cannot delete their own account, so the platform always keeps
-  at least one admin.
+  at least one admin
+- Integration tests use the development database `limen_dev`
+  (next step: a separate test database)
+- `synchronize: true` instead of migrations, also in production
 
 ## Tech Stack
 
@@ -197,7 +203,7 @@ Relations:
   - The author and admins can delete a post
   - Nobody can edit an anonymized post (author deleted), only admins can delete it
 
-**Integration tests** (Vitest, Supertest)
+**Integration tests** (Vitest, Supertest), `threads.e2e-spec.ts`
 
 - Start the complete app with the real PostgreSQL database
 - Register and log in a test user, then test the thread endpoints:
