@@ -108,7 +108,10 @@ registration.
 - [x] Admin moderation: admins can delete all posts
 - [x] Anonymization of posts from deleted accounts
 - [x] Author name and professional field shown on every post
-- [ ] Automated tests (Vitest, Supertest)
+- [x] Automated tests: unit tests and integration tests (Vitest, Supertest)
+- [x] Accessibility: skip link, visible focus, sufficient contrast (Lighthouse 100)
+- [x] Profile page: users see their own data (email is only visible to themselves)
+- [x] Deleting your own account in the app (posts stay and are anonymized)
 
 ## Extensions
 
@@ -124,16 +127,27 @@ registration.
 1. **Verification of professionals by admins** (makes the platform
    closed)
 2. Email verification after registration
-3. Deleting your own account in the app (posts stay and are
-   anonymized, this is already prepared in the database)
-4. Archiving instead of deleting (soft delete)
-5. Deactivating accounts instead of deleting them
-6. Pagination for threads and replies
-7. Filter by professional field or level (e.g. "What does practice say
-   about this topic?")
-8. Search in threads
-9. Progressive Web App (PWA): installable on phones, opens like a
-   native app
+3. Archiving instead of deleting (soft delete)
+4. Deactivating accounts instead of deleting them
+5. Pagination for threads and replies
+6. Filter by category, professional field or level (e.g. "What does
+   practice say about this topic?")
+7. Search in threads
+8. Live updates of new replies with Socket.io
+9. AI summary of long discussions (Mistral)
+10. Local database with Docker Compose
+11. Success messages (toasts)
+12. Security headers (CSP, HSTS, clickjacking protection)
+13. Progressive Web App (PWA): installable on phones, opens like a
+    native app
+
+## Known Limitations
+
+- After a user deletes their account, their JWT stays technically valid
+  until it expires (1 day). The frontend logs the user out right away,
+  so this only matters for direct API calls.
+- Admins cannot delete their own account, so the platform always keeps
+  at least one admin.
 
 ## Tech Stack
 
@@ -204,6 +218,25 @@ bun run test:e2e    # integration tests (Postgres must be running)
 Note: the integration tests use the development database `limen_dev`.
 A separate test database would be a next step.
 
+## Accessibility
+
+Accessibility is part of the design from the start, not an add-on.
+
+- Semantic HTML: one `<h1>` per page, logical heading order, lists,
+  `<article>`, `<time>`, `<dl>` for profile data
+- "Skip to content" link appears on keyboard focus
+- Visible purple focus outline on all links, buttons and inputs
+  (at least 3:1 contrast, light and dark mode)
+- Text contrast of at least 4.5:1, including grey secondary text
+- Every input has a visible label, error messages use alerts that
+  screen readers announce
+- Category badges always show the category name, so the meaning does
+  not depend on color alone
+- Responsive layout, touch-friendly buttons
+
+**Lighthouse (live site):** Performance 91, Accessibility 100,
+Best Practices 100, SEO 100
+
 ## Local Development
 
 **Requirements:** Node.js v20.19+ or v22.12+, Bun, Postgres.app
@@ -245,7 +278,7 @@ bun install
 bun run dev
 ```
 
-The backend must be running on http://localhost:3000, otherwise the start page shows "Backend not reachable".
+The backend must be running on http://localhost:3000, otherwise threads cannot be loaded.
 
 **Note:** `synchronize: true` is used in development. It automatically
 creates tables from the entities, but can delete data when entities
@@ -278,10 +311,11 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
 **Environment variables on Render (backend):**
 
 - `DATABASE_URL`: internal database URL of `limen-db`
-- `BUN_VERSION`: Bun version used for install and build
-- `NODE_VERSION`: Node version used to run the app
+- `JWT_SECRET`: secret for signing the access tokens
+- `ADMIN_EMAIL`, `ADMIN_NAME`, `ADMIN_PASSWORD`: create the first admin
+  on startup (optional, only if no admin exists yet)
 - `FRONTEND_URL`: live frontend URL, only this origin may call the API (CORS)
-- `BUN_VERSION`, `NODE_VERSION`: runtime versions
+- `BUN_VERSION`, `NODE_VERSION`: runtime versions for install, build and run
 
 **Environment variables on Vercel (frontend):**
 
@@ -295,3 +329,4 @@ Project board: [Limen Kanban Board](https://github.com/users/LNAcodes/projects/8
 - `synchronize: true` is also active in production for this capstone
   (known trade-off, migrations would be the next step)
 - Credentials are only stored as environment variables, never in code
+- Next.js was upgraded to 16.4.2 after a security advisory in October 2026
