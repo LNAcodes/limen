@@ -1,6 +1,7 @@
 import type { Thread } from "@/types/thread";
 import type { Reply } from "@/types/reply";
 import type { Category } from "@/types/category";
+import type { CurrentUser } from "@/types/user";
 
 export type NewThreadData = {
   title: string;
@@ -227,4 +228,20 @@ export async function registerUser(
   if (!registerResponse.ok) {
     throw new Error("Failed to register");
   }
+}
+
+export async function getCurrentUser(
+  accessToken: string,
+): Promise<CurrentUser> {
+  const response = await fetch(`${apiBaseUrl}/auth/me`, {
+    headers: createAuthHeaders(accessToken),
+    // Profile data should always be fresh, never from the cache
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Profile could not be loaded");
+  }
+
+  return response.json();
 }
