@@ -108,7 +108,9 @@ registration.
 - [x] Admin moderation: admins can delete all posts
 - [x] Anonymization of posts from deleted accounts
 - [x] Author name and professional field shown on every post
-- [ ] Automated tests (Vitest, Supertest)
+- [x] Automated tests (Vitest, Supertest)
+- [x] Profile page: users see their own data (email is only visible to themselves)
+- [x] Deleting your own account in the app (posts stay and are anonymized)
 
 ## Extensions
 
@@ -124,16 +126,22 @@ registration.
 1. **Verification of professionals by admins** (makes the platform
    closed)
 2. Email verification after registration
-3. Deleting your own account in the app (posts stay and are
-   anonymized, this is already prepared in the database)
-4. Archiving instead of deleting (soft delete)
-5. Deactivating accounts instead of deleting them
-6. Pagination for threads and replies
-7. Filter by professional field or level (e.g. "What does practice say
+3. Archiving instead of deleting (soft delete)
+4. Deactivating accounts instead of deleting them
+5. Pagination for threads and replies
+6. Filter by professional field or level (e.g. "What does practice say
    about this topic?")
-8. Search in threads
-9. Progressive Web App (PWA): installable on phones, opens like a
+7. Search in threads
+8. Progressive Web App (PWA): installable on phones, opens like a
    native app
+
+## Known Limitations
+
+- After a user deletes their account, their JWT stays technically valid
+  until it expires (1 day). The frontend logs the user out right away,
+  so this only matters for direct API calls.
+- Admins cannot delete their own account, so the platform always keeps
+  at least one admin.
 
 ## Tech Stack
 
