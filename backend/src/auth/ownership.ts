@@ -15,7 +15,7 @@ export function assertIsAuthor(
 
 export function assertIsAuthorOrAdmin(
   authorId: string | undefined,
-  currentUser: { userId: string; role: string },
+  currentUser: AuthenticatedUser,
 ): void {
   const isAuthor = authorId === currentUser.userId;
   const isAdmin = currentUser.role === UserRole.ADMIN;
