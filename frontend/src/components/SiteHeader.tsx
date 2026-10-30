@@ -16,7 +16,7 @@ export default async function SiteHeader() {
         {/* flex-wrap: on small screens the links move to the next line instead of overflowing */}
         <nav
           aria-label="Main navigation"
-          className="flex felx-wrap items-center gap-4"
+          className="flex flex-wrap items-center gap-4"
         >
           <Link href="/threads">Threads</Link>
 
